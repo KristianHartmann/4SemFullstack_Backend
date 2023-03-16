@@ -1,16 +1,20 @@
 import express, { Request, Response, NextFunction } from 'express';
 import logger from '../utility/logger';
-import CarModel from '../models/carModel';
-import Car from '../models/carModel';
+import Ingredient from '../models/IngredientSchema'
 
-interface Car {
-  id: string;
-  model: string;
-  year: number;
-  price: number;
-  color: string;
+
+interface Ingredient {
+  name: string;
+  type: string;
+  nutrition: {
+    calories: number;
+    protein: number;
+    fat: number;
+    carbs: number;
+  };
 }
-export const getAllCars = async (
+
+export const getAllIngredients = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -19,7 +23,7 @@ export const getAllCars = async (
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await CarModel.find(),
+      data: await Ingredient.find(),
     });
   } catch (err: any) {
     logger.log(err);
@@ -27,7 +31,7 @@ export const getAllCars = async (
   }
 };
 
-export const getCar = async (
+export const getIngredientByID = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -36,7 +40,7 @@ export const getCar = async (
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await CarModel.findById(req.params.id),
+      data: await Ingredient.findById(req.params.id),
     });
   } catch (err: any) {
     logger.log(err);
@@ -44,18 +48,18 @@ export const getCar = async (
   }
 };
 
-export const createCar = async (
+export const createIngredient = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const newCar = await CarModel.create(req.body);
+    const newIngredient = await Ingredient.create(req.body);
 
     res.status(201).json({
       status: 'success',
       method: 'Post',
-      data: newCar,
+      data: newIngredient,
     });
   } catch (err: any) {
     logger.log(err);
@@ -63,7 +67,7 @@ export const createCar = async (
   }
 };
 
-export const updateCar = async (
+export const updateIngredint = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -72,7 +76,7 @@ export const updateCar = async (
     res.status(200).json({
       status: 'success',
       method: 'Patch',
-      data: await CarModel.findByIdAndUpdate(req.params.id, req.body, {
+      data: await Ingredient.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
       }),
@@ -83,7 +87,7 @@ export const updateCar = async (
   }
 };
 
-export const deleteCar = async (
+export const deleteIngredient = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -92,10 +96,23 @@ export const deleteCar = async (
     res.status(200).json({
       status: 'success',
       method: 'Delete',
-      data: await CarModel.findByIdAndDelete(req.params.id),
+      data: await Ingredient.findByIdAndDelete(req.params.id),
     });
   } catch (err: any) {
     logger.log(err);
     next(err);
   }
 };
+
+// Example to create a new ingredient:
+
+// const tomato: Ingredient = {
+//   name: 'Tomato',
+//   type: 'Vegetable',
+//   nutrition: {
+//     calories: 18,
+//     protein: 0.9,
+//     fat: 0.2,
+//     carbs: 3.9,
+//   },
+// };
