@@ -1,7 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
-import logger from '../utility/logger';
-import Ingredient from '../models/IngredientSchema'
-
+import { Request, Response, NextFunction } from 'express';
+import Ingredient from '../models/IngredientSchema';
+import catchAsync from '../utility/catchAsync';
 
 interface Ingredient {
   name: string;
@@ -14,46 +13,33 @@ interface Ingredient {
   };
 }
 
-export const getAllIngredients = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const getAllIngredients = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const ingredients = await Ingredient.find();
+
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await Ingredient.find(),
+      results: ingredients.length,
+      data: ingredients,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const getIngredientByID = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const getIngredientByID = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const ingredient = await Ingredient.findById(req.params.id);
+
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await Ingredient.findById(req.params.id),
+      data: ingredient,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const createIngredient = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const createIngredient = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const newIngredient = await Ingredient.create(req.body);
 
     res.status(201).json({
@@ -61,58 +47,36 @@ export const createIngredient = async (
       method: 'Post',
       data: newIngredient,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const updateIngredint = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const updateIngredint = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const ingredient = await Ingredient.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
     res.status(200).json({
       status: 'success',
       method: 'Patch',
-      data: await Ingredient.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-      }),
+      data: ingredient,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const deleteIngredient = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    res.status(200).json({
+export const deleteIngredient = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    await Ingredient.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
       status: 'success',
       method: 'Delete',
       data: await Ingredient.findByIdAndDelete(req.params.id),
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
-
-// Example to create a new ingredient:
-
-// const tomato: Ingredient = {
-//   name: 'Tomato',
-//   type: 'Vegetable',
-//   nutrition: {
-//     calories: 18,
-//     protein: 0.9,
-//     fat: 0.2,
-//     carbs: 3.9,
-//   },
-// };
+  },
+);

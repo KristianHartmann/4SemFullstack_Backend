@@ -1,6 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
-import logger from '../utility/logger';
+import { Request, Response, NextFunction } from 'express';
 import User from '../models/UserSchema';
+import catchAsync from '../utility/catchAsync';
 
 import { Document, Types } from 'mongoose';
 
@@ -15,90 +15,66 @@ export interface User extends Document {
   shoppingLists: Types.Array<Types.ObjectId>;
 }
 
-export const getAllUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const getAllUsers = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await User.find();
+
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await User.find(),
+      results: users.length,
+      data: users,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const getUserByID = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const getUserByID = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.params.id);
+
     res.status(200).json({
       status: 'success',
       method: 'Get',
-      data: await User.findById(req.params.id),
+      data: user,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const newUser = await User.create(req.body);
+
     res.status(201).json({
       status: 'success',
       method: 'Post',
-      data: await User.create(req.body),
+      data: newUser,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const updateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const updateUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
     res.status(200).json({
       status: 'success',
       method: 'Patch',
-      data: await User.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-      }),
+      data: user,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);
 
-export const deleteUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    res.status(200).json({
+export const deleteUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
       status: 'success',
       method: 'Delete',
-      data: await User.findByIdAndDelete(req.params.id),
+      data: null,
     });
-  } catch (err: any) {
-    logger.log(err);
-    next(err);
-  }
-};
+  },
+);

@@ -1,8 +1,11 @@
+// <reference path="./types/express.d.ts" />
 import * as dotenv from 'dotenv';
 dotenv.config({ path: './config.env' });
 import express = require('express');
+import { NextFunction, Request, Response } from 'express';
 import morgan = require('morgan');
-import logger from './utility/logger';
+import AppError from './utility/appError';
+import globalErrorHandler from './middleware/globalErrorHandler';
 import ingredientRouter from './routes/ingredientRoute';
 import recipeRouter from './routes/recipeRoute';
 import shoppinglistRouter from './routes/shoppingListRoute';
@@ -24,11 +27,11 @@ app.use('/api/v1/shoppinglists', shoppinglistRouter);
 app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
-  res.status(404).json({
-    status: 'fail',
-    message: `Can't find ${req.originalUrl} on this server!`,
-  });
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+/// Error handling middleware needs to be last in the chain after all other middleware
+
+app.use(globalErrorHandler);
 
 export default app;
