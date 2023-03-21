@@ -40,10 +40,4 @@ export = (err: Error, req: Request, res: Response, next: NextFunction) => {
   // } else {
   //   logger.debug(new Logger(err.status, err.statusCode, err.message).log())
   // }
-
-  if (err.statusCode >= 500) {
-    logger.error(err);
-  } else {
-    logger.debug(err);
-  }
 };
