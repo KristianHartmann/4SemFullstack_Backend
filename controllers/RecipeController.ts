@@ -58,10 +58,11 @@ export const createRecipe = catchAsync(
 
 export const updateRecipe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const recipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      { $push: { reviews: req.body.reviewId } },
+      { new: true },
+    );
 
     res.status(200).json({
       status: 'success',
