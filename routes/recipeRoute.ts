@@ -4,7 +4,9 @@ import { createRecipe, deleteRecipe, getAllRecipes, getRecipeByID, updateRecipe 
 
 const recipeRouter = express.Router();
 
+
 logger.debug('Recipe Route Loaded');
+
 recipeRouter.route('/:id').get(getRecipeByID).patch(updateRecipe).delete(deleteRecipe);
 recipeRouter.route('/').get(getAllRecipes).post(createRecipe);
 

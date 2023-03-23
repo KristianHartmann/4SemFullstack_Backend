@@ -4,6 +4,7 @@ import { createIngredient, deleteIngredient, getAllIngredients, getIngredientByI
 
 const ingredientRouter = express.Router();
 
+
 logger.debug('Ingredient Route Loaded');
 ingredientRouter.route('/:id').get(getIngredientByID).patch(updateIngredint).delete(deleteIngredient);
 ingredientRouter.route('/').get(getAllIngredients).post(createIngredient);

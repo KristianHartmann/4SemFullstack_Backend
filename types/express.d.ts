@@ -9,3 +9,4 @@ interface Error {
   status: string;
   isOperational?: boolean;
 }
+

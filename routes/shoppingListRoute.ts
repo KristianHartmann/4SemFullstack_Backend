@@ -9,7 +9,6 @@ import {
 } from '../controllers/ShoppingListController';
 
 const shoppinglistRouter = express.Router();
-
 logger.debug('Shoppinglist Route Loaded');
 shoppinglistRouter
   .route('/:id')

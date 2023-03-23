@@ -35,9 +35,9 @@ export = (err: Error, req: Request, res: Response, next: NextFunction) => {
     sendErrorProd(err, res);
   }
 
-  // if (err.statusCode.toString().startsWith('5')) {
-  //   logger.error(new Logger(err.status, err.statusCode, err.message).log())
-  // } else {
-  //   logger.debug(new Logger(err.status, err.statusCode, err.message).log())
-  // }
+//   if (err.statusCode.toString().startsWith('5')) {
+//     logger.error(new Logger(err.status, err.statusCode, err.message).log())
+//   } else {
+//     logger.debug(new Logger(err.status, err.statusCode, err.message).log())
+//   }
 };

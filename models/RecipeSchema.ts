@@ -1,19 +1,22 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const recipeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  guide: { type: String, required: true },
-  time: { type: Number, required: true },
+  mealHeadline: { type: String, required: true },
+  category: { type: String, required: true },
+  instructions: { type: String, required: true },
+  mealThumbnail: { type: String },
+  mealVideo: { type: String, required: true },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   ingredients: [
     {
       name: { type: String, required: true },
-      amount: { type: String },
-      weight: { type: Number },
+      measure: { type: String },
     },
   ],
-  image: { type: String },
-  ratings: [{ type: Number }],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -21,6 +24,6 @@ const recipeSchema = new mongoose.Schema({
   },
 });
 
-const Recipe = mongoose.model("Recipe", recipeSchema);
+const Recipe = mongoose.model('Recipe', recipeSchema);
 
 export default Recipe;
