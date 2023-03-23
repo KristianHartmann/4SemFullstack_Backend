@@ -7,6 +7,8 @@ import AppError from './utility/appError';
 import globalErrorHandler from './middleware/globalErrorHandler';
 import recipeRouter from './routes/recipeRoute';
 import reviewRouter from './routes/reviewRoute';
+import userRouter from './routes/userRoute';
+import shoppinglistRouter from './routes/shoppingListRoute';
 
 
 
@@ -20,8 +22,10 @@ app.use(express.json()); // Body parser for JSON data
 app.use(express.static(`${__dirname}/public`)); // Serve static files
 
 // Routes
-app.use('/api/v1/recipes', recipeRouter);
-app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/recipe', recipeRouter);
+app.use('/api/v1/review', reviewRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/shoppinglist', shoppinglistRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

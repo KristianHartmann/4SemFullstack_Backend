@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import User from '../models/UserSchema';
 import catchAsync from '../utility/catchAsync';
 
-import { Document, Types } from 'mongoose';
-
-export interface User extends Document {
-  email: string;
-  username: string;
-  password: string;
+interface User {
   firstName: string;
   lastName: string;
+  email: string;
+  role: 'user' | 'admin';
+  password: string;
   profilePicture?: string;
-  savedRecipes: Types.Array<Types.ObjectId>;
-  shoppingLists: Types.Array<Types.ObjectId>;
+  createdAt?: Date;
+  savedRecipes?: mongoose.Types.ObjectId[];
+  shoppingList?: mongoose.Types.ObjectId;
 }
 
 export const getAllUsers = catchAsync(
