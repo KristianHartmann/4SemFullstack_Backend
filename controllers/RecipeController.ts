@@ -3,6 +3,7 @@ import Recipe from '../models/RecipeSchema';
 import { Document, Types } from 'mongoose';
 import { Review } from './reviewController';
 import catchAsync from '../utility/catchAsync';
+import temp from './temp.json';
 
 interface Recipe extends Document {
   mealHeadline: string;
@@ -44,17 +45,54 @@ export const getRecipeByID = catchAsync(
   },
 );
 
-export const createRecipe = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const newRecipe = await Recipe.create(req.body);
+export const createRecipe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const recdata = temp;
+    const createdRecipes = await Promise.all(
+      recdata.map(async (data: any) => {
+        const ingredients: string[] = []; // Explicit type for ingredients array
+        const measures: string[] = []; // Explicit type for measures array
+        for (let i = 1; i <= 20; i++) {
+          const ingredientKey = `strIngredient${i}`;
+          const measureKey = `strMeasure${i}`;
+          const ingredientValue = data[ingredientKey]?.trim();
+          const measureValue = data[measureKey]?.trim();
+          if (ingredientValue !== '' && measureValue !== '') {
+            ingredients.push(ingredientValue);
+            measures.push(measureValue);
+          }
+        }
+
+        const newRecipe = await Recipe.create({
+          mealHeadline: data.strMeal,
+          category: data.strCategory,
+          instructions: data.strInstructions,
+          mealThumbnail: data.strMealThumb,
+          mealVideo: data.strYoutube,
+          ingredients: ingredients.map((ingredient, index) => ({
+            name: ingredient,
+            measure: measures[index],
+          })),
+          reviews: [],
+        });
+        return newRecipe;
+      }),
+    );
 
     res.status(201).json({
       status: 'success',
       method: 'Post',
-      data: newRecipe,
+      data: createdRecipes,
     });
-  },
-);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
 export const updateRecipe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
