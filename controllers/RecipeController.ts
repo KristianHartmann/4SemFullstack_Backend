@@ -21,14 +21,24 @@ interface Recipe extends Document {
 
 export const getAllRecipes = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const recipe = await Recipe.find();
-
-    res.status(200).json({
-      status: 'success',
-      method: 'Get',
-      results: recipe.length,
-      data: recipe,
-    });
+    try {
+      const recipe = await Recipe.find();
+      console.log('test');
+      res.status(200).json({
+        status: 'success',
+        method: 'Get',
+        results: recipe.length,
+        data: recipe,
+      });
+    } catch (error: any) {
+      // Explicitly specify the type of 'error' as 'any' or 'Error'
+      console.log(error);
+      res.status(500).json({
+        // Send a proper error response with status code and error message
+        status: 'error',
+        message: error.stack,
+      });
+    }
   },
 );
 
