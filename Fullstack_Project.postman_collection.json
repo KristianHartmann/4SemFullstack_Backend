@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "219ae5e7-5275-4b3d-950c-802a0b077c7e",
+		"name": "Fullstack_Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24180729"
+	},
+	"item": [
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "Get all Recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/recipe",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"recipe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/recipe/641c2f60547715a1329f7df5",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"recipe",
+								"641c2f60547715a1329f7df5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new Recipe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mealHeadline\": \"Delicious Spaghetti Bolognese\",\r\n  \"category\": \"Pasta\",\r\n  \"instructions\": \"1. Cook spaghetti according to package directions. 2. In a large skillet, cook ground beef over medium heat until browned. 3. Add chopped onion, garlic, and canned tomatoes to the skillet. 4. Simmer for 15 minutes. 5. Serve sauce over cooked spaghetti.\",\r\n  \"mealThumbnail\": \"https://media.discordapp.net/attachments/672812245629141018/1088407060565209232/IMG_2381.jpg?width=744&height=991\",\r\n  \"mealVideo\": \"https://www.youtube.com/watch?v=v2WqcHH65NQ\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"spaghetti\",\r\n      \"measure\": \"1 pound\"\r\n    },\r\n    {\r\n      \"name\": \"ground beef\",\r\n      \"measure\": \"1 pound\"\r\n    },\r\n    {\r\n      \"name\": \"onion\",\r\n      \"measure\": \"1/2 cup chopped\"\r\n    },\r\n    {\r\n      \"name\": \"garlic\",\r\n      \"measure\": \"2 cloves minced\"\r\n    },\r\n    {\r\n      \"name\": \"canned tomatoes\",\r\n      \"measure\": \"14.5 ounce can\"\r\n    }\r\n  ]\r\n}\r\n  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/recipe",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"recipe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reviewId\": \"641c502d0c1a37732cb8bd47\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/recipe/641c4795437640b7aaa146d0",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"recipe",
+								"641c4795437640b7aaa146d0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user/641c3c83557fcc4ed875e5ae",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user",
+								"641c3c83557fcc4ed875e5ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ShoppingList",
+			"item": [
+				{
+					"name": "Get all shoppingLists",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get shoppinglist by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create Shoppinglist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Tomatoes\",\r\n      \"measure\": \"2 lbs\"\r\n    },\r\n    {\r\n      \"name\": \"Onions\",\r\n      \"measure\": \"1 medium\"\r\n    },\r\n    {\r\n      \"name\": \"Garlic\",\r\n      \"measure\": \"3 cloves\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/shoppinglist",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"shoppinglist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to shoppinglist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Tomatoes\",\r\n      \"measure\": \"2 lbs\"\r\n    },\r\n    {\r\n      \"name\": \"Onions\",\r\n      \"measure\": \"1 medium\"\r\n    },\r\n    {\r\n      \"name\": \"Garlic\",\r\n      \"measure\": \"3 cloves\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/shoppinglist/641c467b437640b7aaa146b8",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"shoppinglist",
+								"641c467b437640b7aaa146b8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shoppinglist by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/shoppinglist/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"shoppinglist",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/review",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"review\": \"This restaurant was amazing! The food was delicious and the service was great.\",\r\n  \"rating\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/review",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete review by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/review/641c4f620c1a37732cb8bd41",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"review",
+								"641c4f620c1a37732cb8bd41"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
