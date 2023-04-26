@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const recipeSchema = new mongoose.Schema({
   mealHeadline: { type: String, required: true },
-  category: { type: String, required: true },
   instructions: { type: String, required: true },
   mealThumbnail: { type: String },
   mealVideo: { type: String, required: false },
@@ -10,13 +9,14 @@ const recipeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  ingredients: [
+
+  ingredients: [{ name: String, measure: String }],
+  category: 
     {
-      name: { type: String },
-      measure: { type: String },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
     },
-  ],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+  reviews: { type: mongoose.Schema.Types.ObjectId, ref: 'Review' },
   createdAt: {
     type: Date,
     default: Date.now(),

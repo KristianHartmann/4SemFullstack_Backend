@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Review from '../models/ReviewSchema';
-import catchAsync from '../utility/catchAsync';
+import catchAsync from '../../utility/catchAsync';
 
 export interface Review {
   id: string;

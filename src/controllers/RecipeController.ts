@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import Recipe from '../models/RecipeSchema';
 import { Document, Types } from 'mongoose';
 import { Review } from './reviewController';
-import catchAsync from '../utility/catchAsync';
+import catchAsync from '../../utility/catchAsync';
 
 interface Recipe extends Document {
   mealHeadline: string;
@@ -32,7 +32,6 @@ export const getAllRecipes = catchAsync(
   },
 );
 
-
 export const getRecipeByID = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const recipe = await Recipe.findById(req.params.id);
@@ -44,7 +43,17 @@ export const getRecipeByID = catchAsync(
     });
   },
 );
+export const createRecipe = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const newRecipe = await Recipe.create(req.body);
 
+    res.status(201).json({
+      status: 'success',
+      method: 'Post',
+      data: newRecipe,
+    });
+  },
+);
 export const updateRecipe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, {

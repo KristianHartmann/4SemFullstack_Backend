@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
-import logger from '../utility/logger';
+import logger from '../../utility/logger';
 import ShoppingList from '../models/ShoppingListSchema';
-
 
 export interface ShoppingList {
   name: string;

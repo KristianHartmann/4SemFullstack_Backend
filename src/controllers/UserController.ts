@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/UserSchema';
-import catchAsync from '../utility/catchAsync';
+import catchAsync from '../../utility/catchAsync';
 
 import { Document, Types } from 'mongoose';
 

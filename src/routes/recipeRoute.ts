@@ -1,7 +1,6 @@
-import logger from '../utility/logger';
-import express = require('express');
+import logger from '../../utility/logger';
+import express from 'express';
 import {
-  createRecipe,
   deleteRecipe,
   getAllRecipes,
   getRecipeByID,
@@ -17,6 +16,6 @@ recipeRouter
   .get(getRecipeByID)
   .patch(updateRecipe)
   .delete(deleteRecipe);
-recipeRouter.route('/').get(getAllRecipes).post(createRecipe);
+recipeRouter.route('/').get(getAllRecipes);
 
 export default recipeRouter;
