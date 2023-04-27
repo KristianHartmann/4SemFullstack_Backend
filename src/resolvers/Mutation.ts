@@ -10,6 +10,7 @@ import {
   AuthPayload,
   LoginInput,
 } from '../types/types';
+
 import Recipe from '../models/RecipeSchema';
 import Category from '../models/CategorySchema';
 import Review from '../models/ReviewSchema';
@@ -34,7 +35,7 @@ export default {
     {
       input: {
         mealHeadline,
-        categoryId,
+        category,
         createdBy,
         ingredients,
         instructions,
@@ -44,17 +45,41 @@ export default {
     }: { input: RecipeType },
     context: Context,
   ) => {
+    const updateCategory = await Category.findById(category);
+    if (!updateCategory) {
+      throw new Error('Category not found');
+    }
+    const updateUser = await User.findById(createdBy);
+    if (!updateUser) {
+      throw new Error('User not found');
+    }
+
     const newRecipe = new Recipe({
       mealHeadline,
-      category: categoryId,
+      category: updateCategory.id,
       createdBy,
       ingredients,
       instructions,
       mealThumbnail,
       mealVideo,
     });
-    await newRecipe.save();
-    return newRecipe;
+
+    try {
+      await Promise.all([
+        newRecipe.save(),
+        updateCategory.recipes.push(newRecipe._id),
+        updateUser.recipes.push(newRecipe._id),
+        updateCategory.save(),
+        updateUser.save(),
+      ]);
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error saving recipe');
+    }
+    const populatedRecipe = await Recipe.findById(newRecipe._id)
+      .populate('category')
+      .populate('createdBy');
+    return populatedRecipe;
   },
   createCategory: async (
     _parent: never,
@@ -67,11 +92,35 @@ export default {
 
   createReview: async (
     _parent: never,
-    { input: { rating, comment, createdBy, recipeId } }: { input: ReviewType },
+    { input: { rating, comment, createdBy, recipe } }: { input: ReviewType },
   ) => {
-    const newReview = new Review({ rating, comment, createdBy, recipeId });
-    await newReview.save();
-    return newReview;
+    console.log('recipeId');
+    const updateRecipe = await Recipe.findById(recipe);
+    if (!updateRecipe) {
+      throw new Error('Recipe not found');
+    }
+    const updateUser = await User.findById(createdBy);
+    if (!updateUser) {
+      throw new Error('User not found');
+    }
+    const newReview = new Review({ rating, comment, createdBy, recipe });
+
+    try {
+      await Promise.all([
+        newReview.save(),
+        updateRecipe.reviews.push(newReview._id),
+        updateUser.reviews.push(newReview._id),
+        updateRecipe.save(),
+        updateUser.save(),
+      ]);
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error saving recipe');
+    }
+    const populatedReview = await Review.findById(newReview._id)
+      .populate('createdBy')
+      .populate('recipe');
+    return populatedReview;
   },
 
   createUser: async (

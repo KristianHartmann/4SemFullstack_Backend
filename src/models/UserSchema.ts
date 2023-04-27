@@ -8,6 +8,18 @@ const userSchema = new mongoose.Schema({
     default: Date.now(),
     select: false, // This will not show the createdAt field when we get the data
   },
+  recipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    },
+  ],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 const User = mongoose.model('User', userSchema);

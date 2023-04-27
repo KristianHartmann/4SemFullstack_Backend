@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
-  review: {
+  comment: {
     type: String,
     required: [true, 'Review can not be empty!'],
   },
@@ -13,6 +13,10 @@ const reviewSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+  recipe: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Recipe',
   },
   createdAt: {
     type: Date,

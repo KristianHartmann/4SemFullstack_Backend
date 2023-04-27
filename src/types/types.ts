@@ -10,19 +10,20 @@ type RecipeType = {
   mealVideo: string;
   createdBy: string;
   ingredients: [IngredientType];
-  categoryId: string;
+  category: string;
 };
 type ReviewType = {
   id: string;
   rating: number;
   comment: string;
-  recipeId: string;
+  recipe: string;
   createdBy: string;
 };
 type UserType = {
   _id: string;
   email: string;
   password: string;
+  recipeid: string;
   createdAt: Date;
 };
 
