@@ -19,7 +19,7 @@ const recipeSchema = new mongoose.Schema({
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Recipe',
+      ref: 'Review',
     },
   ],
   createdAt: {

@@ -6,17 +6,29 @@ import { Args, Context } from '../types/types';
 
 export default {
   recipes: async () =>
-    await Recipe.find({}).populate('category').populate('createdBy'),
+    await Recipe.find({})
+      .populate('category')
+      .populate('createdBy')
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'createdBy',
+          select: 'email',
+        },
+      }),
   recipe: async (_parent: never, { id }: Args) =>
-    await Recipe.findById(id).populate('category').populate('createdBy'),
+    await Recipe.findById(id)
+      .populate('category')
+      .populate('createdBy')
+      .populate('reviews'),
   users: async () =>
     await User.find({}).populate('recipes').populate('reviews'),
   user: async (_parent: never, { id }: Args) =>
     await User.findById(id).populate('recipes').populate('reviews'),
   reviews: async () =>
-    await Review.find({}).populate('User').populate('Recipe'),
+    await Review.find({}).populate('createdBy').populate('recipe'),
   review: async (_parent: never, { id }: Args) =>
-    await Review.findById(id).populate('User').populate('Recipe'),
+    await Review.findById(id).populate('createdBy').populate('recipe'),
   categories: async () => await Category.find({}),
   category: async (_parent: never, { id }: Args) =>
     await Category.findById(id).populate('recipes'),
