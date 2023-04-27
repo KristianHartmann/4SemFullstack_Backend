@@ -11,11 +11,11 @@ const recipeSchema = new mongoose.Schema({
   },
 
   ingredients: [{ name: String, measure: String }],
-  category: 
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-    },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
   reviews: { type: mongoose.Schema.Types.ObjectId, ref: 'Review' },
   createdAt: {
     type: Date,

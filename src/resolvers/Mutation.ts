@@ -27,20 +27,27 @@ export default {
   ) => {
     const newRecipe = new Recipe({
       mealHeadline,
-      categoryId,
+      category: categoryId,
       createdBy,
       ingredients,
       instructions,
       mealThumbnail,
       mealVideo,
     });
+    // Find the category document and update the recipes field
+    // const category = await Category.findById(categoryId);
+    // category.recipes.push(newRecipe);
+    // await category.save();
     await newRecipe.save();
     return newRecipe;
   },
-  createCategory: async (_parent: never, { category }: CategoryType) => {
-    const newCategory = new Category({ category });
+  createCategory: async (
+    _parent: never,
+    { input: { category, recipeid } }: { input: CategoryType },
+  ) => {
+    const newCategory = new Category({ category, recipeid });
     await newCategory.save();
-    return newCategory.category;
+    return newCategory;
   },
   createReview: async (
     _parent: never,

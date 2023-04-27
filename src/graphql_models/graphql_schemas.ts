@@ -1,17 +1,14 @@
 const typeDefs = `
   type Recipe {
-    id: ID!
-    mealHeadline: String!
-    category: String!
-    instructions: String!
-    mealThumbnail: String!
-    mealVideo: String!
-    createdBy: User!
-    ingredients: [Ingredient!]!
-    reviews: [Review!]!
-    createdAt: String!
-  }
-
+  mealHeadline: String!
+  category: Category!
+  instructions: String!
+  mealThumbnail: String!
+  mealVideo: String!
+  createdBy: User!
+  ingredients: [Ingredient!]!
+  reviews: [Review!]!
+} 
 
 type Ingredient {
   name: String!
@@ -21,6 +18,7 @@ type Ingredient {
  type Category {
     id: ID!
     category: String!
+    recipes: [Recipe!]!
   }
 
   type Review {
@@ -54,7 +52,7 @@ type Ingredient {
     createRecipe(input: RecipeInput!): Recipe!
     createReview(input: ReviewInput!): Review!
     createUser(input: UserInput!): User!
-    createCategory(category: String!): String!
+    createCategory(input: CategoryInput!): Category!
   }
 
     input IngredientInput {
@@ -63,14 +61,14 @@ type Ingredient {
   }
 
   input RecipeInput {
-    mealHeadline: String!
-    category: String!
-    instructions: String!
-    mealThumbnail: String!
-    mealVideo: String!
-    createdBy: ID!
-    ingredients: [IngredientInput!]!
-  }
+  mealHeadline: String!
+  category: ID!
+  instructions: String!
+  mealThumbnail: String!
+  mealVideo: String!
+  createdBy: ID!
+  ingredients: [IngredientInput!]!
+}
 
   input ReviewInput {
     rating: Int!
@@ -85,6 +83,7 @@ type Ingredient {
   }
   input CategoryInput {
     category: String!
+    recipe: ID
   }
 
 `;

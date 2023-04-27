@@ -29,6 +29,7 @@ type IngredientType = {
 type CategoryType = {
   id: string;
   category: string;
+  recipeid: string;
 };
 
 type Context = {
