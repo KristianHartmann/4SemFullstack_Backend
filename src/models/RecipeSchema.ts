@@ -16,7 +16,12 @@ const recipeSchema = new mongoose.Schema({
     ref: 'Category',
     required: true,
   },
-  reviews: { type: mongoose.Schema.Types.ObjectId, ref: 'Review' },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
