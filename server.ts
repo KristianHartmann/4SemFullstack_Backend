@@ -44,6 +44,7 @@ app.use(
   '/graphql',
   cors<cors.CorsRequest>(),
   json(),
+  // @ts-ignore
   expressMiddleware(server, {
     context: async () => ({
       recipes,

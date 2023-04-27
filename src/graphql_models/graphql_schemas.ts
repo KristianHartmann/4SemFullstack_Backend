@@ -1,3 +1,5 @@
+
+
 const typeDefs = `
   type Recipe {
   mealHeadline: String!
@@ -37,6 +39,11 @@ type Ingredient {
     createdAt: String!
   }
 
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Query {
   recipe(id: ID!): Recipe
   review(id: ID!): Review
@@ -53,9 +60,10 @@ type Ingredient {
     createReview(input: ReviewInput!): Review!
     createUser(input: UserInput!): User!
     createCategory(input: CategoryInput!): Category!
+    login(input: LoginInput!): AuthPayload!
   }
 
-    input IngredientInput {
+  input IngredientInput {
     name: String!
     measure: String!
   }
@@ -84,6 +92,11 @@ type Ingredient {
   input CategoryInput {
     category: String!
     recipe: ID
+  }
+  
+  input LoginInput {
+    email: String!
+    password: String!
   }
 
 `;
