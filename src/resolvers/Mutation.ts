@@ -127,17 +127,18 @@ export default {
     _parent: never,
     { input: { email, password } }: { input: UserType },
     context: Context,
-  ): Promise<AuthPayload> => {
+  ): Promise<UserType> => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser: any = new User({ email, password: hashedPassword });
     await (newUser as Document<any>).save();
-  
+
     const token = generateToken(newUser);
-  
+
     console.log('New user created:', newUser);
-  
-    return { token, user: newUser };
+    console.log('token created:', token);
+
+    return newUser;
   },
   login: async (
     _parent: never,
