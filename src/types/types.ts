@@ -1,3 +1,7 @@
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
 type RecipeType = {
   id: string;
   mealHeadline: string;
@@ -16,12 +20,14 @@ type ReviewType = {
   createdBy: string;
 };
 type UserType = {
-  id: string;
-  username: string;
+  _id: string;
   email: string;
+  role: string;
   password: string;
   recipeid: string;
+  createdAt: Date;
 };
+
 type IngredientType = {
   name: string;
   measure: string;
@@ -38,10 +44,21 @@ type Context = {
   reviews: ReviewType[];
   users: UserType[];
   categories: CategoryType[];
+  prisma: PrismaClient;
 };
 type Args = {
   id: string;
   input: RecipeType | ReviewType | UserType | CategoryType | IngredientType;
+};
+
+type AuthPayload = {
+  token: string;
+  user: UserType;
+};
+
+type LoginInput = {
+  email: string;
+  password: string;
 };
 export type {
   RecipeType,
@@ -51,4 +68,6 @@ export type {
   UserType,
   CategoryType,
   IngredientType,
+  AuthPayload,
+  LoginInput,
 };

@@ -3,16 +3,11 @@ import mongoose from 'mongoose';
 import User from '../models/UserSchema';
 import catchAsync from '../../utility/catchAsync';
 
-interface User {
-  firstName: string;
-  lastName: string;
+import { Document, Types } from 'mongoose';
+
+export interface User extends Document {
   email: string;
-  role: 'user' | 'admin';
   password: string;
-  profilePicture?: string;
-  createdAt?: Date;
-  savedRecipes?: mongoose.Types.ObjectId[];
-  shoppingList?: mongoose.Types.ObjectId;
 }
 
 export const getAllUsers = catchAsync(

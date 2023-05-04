@@ -33,9 +33,14 @@ type Category {
   type User {
     id: ID!
     email: String!
+    role: String
     password: String!
     createdAt: String!
       recipes: [Recipe!]!
+  }
+
+  type AuthPayload {
+    token: String!
   }
 
   type Query {
@@ -54,9 +59,10 @@ type Category {
     createReview(input: ReviewInput!): Review!
     createUser(input: UserInput!): User!
     createCategory(input: CategoryInput!): Category!
+    login(input: LoginInput!): AuthPayload!
   }
 
-    input IngredientInput {
+  input IngredientInput {
     name: String!
     measure: String!
   }
@@ -81,11 +87,17 @@ type Category {
   input UserInput {
     email: String!
     password: String!
+    role: String
     recipe: ID
 
   }
   input CategoryInput {
     category: String!
+  }
+  
+  input LoginInput {
+    email: String!
+    password: String!
   }
 
 `;
