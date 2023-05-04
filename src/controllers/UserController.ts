@@ -6,13 +6,7 @@ import { Document, Types } from 'mongoose';
 
 export interface User extends Document {
   email: string;
-  username: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  profilePicture?: string;
-  savedRecipes: Types.Array<Types.ObjectId>;
-  shoppingLists: Types.Array<Types.ObjectId>;
 }
 
 export const getAllUsers = catchAsync(

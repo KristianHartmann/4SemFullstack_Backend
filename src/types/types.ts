@@ -22,6 +22,7 @@ type ReviewType = {
 type UserType = {
   _id: string;
   email: string;
+  role: string;
   password: string;
   recipeid: string;
   createdAt: Date;

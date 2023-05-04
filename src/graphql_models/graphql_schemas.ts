@@ -1,5 +1,3 @@
-
-
 const typeDefs = `
   type Recipe {
   id: ID!
@@ -35,6 +33,7 @@ type Category {
   type User {
     id: ID!
     email: String!
+    role: String
     password: String!
     createdAt: String!
       recipes: [Recipe!]!
@@ -42,7 +41,6 @@ type Category {
 
   type AuthPayload {
     token: String!
-    user: User!
   }
 
   type Query {
@@ -89,6 +87,7 @@ type Category {
   input UserInput {
     email: String!
     password: String!
+    role: String
     recipe: ID
 
   }

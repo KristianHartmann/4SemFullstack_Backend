@@ -17,15 +17,19 @@ import Review from '../models/ReviewSchema';
 import User from '../models/UserSchema';
 import { Document } from 'mongoose';
 
-const generateToken = (user: { _id: string; email: string }): string => {
+const generateToken = (User: any): string => {
   const privateKey = process.env.JWT_PRIVATE_KEY!;
   // const privateKey = process.env.JWT_PRIVATE_KEY || 'default_private_key';
   const expiresIn = '1d';
   console.log('privatekey: ' + privateKey);
-  const token = jwt.sign({ _id: user._id, email: user.email }, privateKey, {
-    expiresIn,
-    algorithm: 'HS256',
-  });
+  const token = jwt.sign(
+    { _id: User._id.toString(), email: User.email, role: User.role },
+    privateKey,
+    {
+      expiresIn,
+      algorithm: 'HS256',
+    },
+  );
   return token;
 };
 
@@ -125,18 +129,15 @@ export default {
 
   createUser: async (
     _parent: never,
-    { input: { email, password } }: { input: UserType },
+    { input: { email, password, role } }: { input: UserType },
     context: Context,
   ): Promise<UserType> => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser: any = new User({ email, password: hashedPassword });
+    const newUser: any = new User({ email, password: hashedPassword, role });
     await (newUser as Document<any>).save();
 
-    const token = generateToken(newUser);
-
     console.log('New user created:', newUser);
-    console.log('token created:', token);
 
     return newUser;
   },
@@ -145,9 +146,10 @@ export default {
     { input: { email, password } }: { input: LoginInput },
     context: Context,
   ) => {
-    const user: UserType | null = await context.prisma.user.findOne({
-      where: { email },
-    });
+    const user = await User.findOne({ email });
+    // const user: any | null = await context.prisma.user.findOne({
+    //   where: { email },
+    // });
     if (!user) {
       throw new Error('Invalid login credentials');
     }
@@ -159,7 +161,8 @@ export default {
       throw new Error('Invalid login credentials');
     }
 
-    const token = generateToken(user);
+    const token = await generateToken(user);
+    console.log('token: ' + token);
 
     return { token, user };
   },
