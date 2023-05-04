@@ -19,8 +19,18 @@ export default {
   recipe: async (_parent: never, { id }: Args) =>
     await Recipe.findById(id)
       .populate('category')
-      .populate('createdBy')
-      .populate('reviews'),
+      .populate({
+        path: 'createdBy',
+        select: 'email',
+      })
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'createdBy',
+          select: 'email',
+        },
+      }),
+
   users: async () =>
     await User.find({}).populate('recipes').populate('reviews'),
   user: async (_parent: never, { id }: Args) =>
