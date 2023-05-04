@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import Recipe from '../models/RecipeSchema';
 import { Document, Types } from 'mongoose';
 import { Review } from './reviewController';
-import catchAsync from '../utility/catchAsync';
+import catchAsync from '../../utility/catchAsync';
 
 interface Recipe extends Document {
   mealHeadline: string;
@@ -53,7 +53,6 @@ export const getRecipeByID = catchAsync(
     });
   },
 );
-
 export const createRecipe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const newRecipe = await Recipe.create(req.body);
@@ -65,7 +64,6 @@ export const createRecipe = catchAsync(
     });
   },
 );
-
 export const updateRecipe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const recipe = await Recipe.findByIdAndUpdate(

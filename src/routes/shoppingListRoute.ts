@@ -1,5 +1,5 @@
-import logger from '../utility/logger';
-import express = require('express');
+import logger from '../../utility/logger';
+import express from 'express';
 import {
   createShoppingList,
   deleteShoppingList,

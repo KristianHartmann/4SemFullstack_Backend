@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/UserSchema';
-import catchAsync from '../utility/catchAsync';
+import catchAsync from '../../utility/catchAsync';
 
 interface User {
   firstName: string;
