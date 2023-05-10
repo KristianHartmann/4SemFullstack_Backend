@@ -2,11 +2,14 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+type TokenType = {
+  token: string;
+};
 type TokenPayload = {
   id: string;
   email: string;
   role: string;
-}; 
+};
 
 type RecipeType = {
   id: string;
@@ -17,7 +20,7 @@ type RecipeType = {
   createdBy: string;
   ingredients: [IngredientType];
   category: string;
-  token?: string;
+  token: TokenType;
 };
 type ReviewType = {
   id: string;
@@ -77,5 +80,6 @@ export type {
   IngredientType,
   AuthPayload,
   LoginInput,
-  TokenPayload
+  TokenPayload,
+  TokenType,
 };

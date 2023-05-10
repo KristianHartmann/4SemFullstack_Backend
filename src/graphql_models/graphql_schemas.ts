@@ -16,6 +16,7 @@ type Ingredient {
   measure: String!
 }
 
+
 type Category {
   id: ID!
   category: String!
@@ -75,6 +76,11 @@ type Category {
   mealVideo: String!
   createdBy: ID!
   ingredients: [IngredientInput!]!
+  token: TokenInput!
+}
+  
+input TokenInput {
+  token: String!
 }
 
   input ReviewInput {
@@ -83,6 +89,7 @@ type Category {
     createdBy: ID!
     recipe: ID!
   }
+
 
   input UserInput {
     email: String!

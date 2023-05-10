@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 import { decodeToken } from '../logic/logic';
 import {
   Args,
@@ -10,7 +10,9 @@ import {
   ReviewType,
   UserType,
   AuthPayload,
+  TokenPayload,
   LoginInput,
+  TokenType,
 } from '../types/types';
 
 import Recipe from '../models/RecipeSchema';
@@ -18,6 +20,7 @@ import Category from '../models/CategorySchema';
 import Review from '../models/ReviewSchema';
 import User from '../models/UserSchema';
 import { Document } from 'mongoose';
+import { Payload } from '@prisma/client/runtime';
 
 const generateToken = (User: any): string => {
   const privateKey = process.env.JWT_PRIVATE_KEY!;
@@ -49,18 +52,14 @@ export default {
         token,
       },
     }: { input: RecipeType },
-    context: Context,
   ) => {
+    console.log('token' + token.token);
     // Decode the JWT token to get the user's role
-    const decodedToken = decodeToken(token);
+    const decodedToken = decodeToken(token.token) as TokenPayload;
 
-    if (!decodedToken) {
-      throw new Error('Unauthorized');
-    }
-    const { role } = decodedToken.payload;
+    const { role } = decodedToken;
 
-    // Check if the user is authorized to create a recipe
-    if (role !== 'admin') {
+    if (!decodedToken || role !== 'admin') {
       throw new Error('Unauthorized');
     }
 
