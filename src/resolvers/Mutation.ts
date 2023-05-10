@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import jwt_decode from "jwt-decode";
+import { decodeToken } from '../logic/logic';
 import {
   Args,
   Context,
@@ -19,7 +21,6 @@ import { Document } from 'mongoose';
 
 const generateToken = (User: any): string => {
   const privateKey = process.env.JWT_PRIVATE_KEY!;
-  // const privateKey = process.env.JWT_PRIVATE_KEY || 'default_private_key';
   const expiresIn = '1d';
   console.log('privatekey: ' + privateKey);
   const token = jwt.sign(
@@ -45,10 +46,24 @@ export default {
         instructions,
         mealThumbnail,
         mealVideo,
+        token,
       },
     }: { input: RecipeType },
     context: Context,
   ) => {
+    // Decode the JWT token to get the user's role
+    const decodedToken = decodeToken(token);
+
+    if (!decodedToken) {
+      throw new Error('Unauthorized');
+    }
+    const { role } = decodedToken.payload;
+
+    // Check if the user is authorized to create a recipe
+    if (role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+
     const updateCategory = await Category.findById(category);
     if (!updateCategory) {
       throw new Error('Category not found');
