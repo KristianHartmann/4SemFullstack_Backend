@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
+import { decodeToken } from '../logic/logic';
 import {
   Args,
   Context,
@@ -8,7 +10,9 @@ import {
   ReviewType,
   UserType,
   AuthPayload,
+  TokenPayload,
   LoginInput,
+  TokenType,
 } from '../types/types';
 
 import Recipe from '../models/RecipeSchema';
@@ -16,10 +20,10 @@ import Category from '../models/CategorySchema';
 import Review from '../models/ReviewSchema';
 import User from '../models/UserSchema';
 import { Document } from 'mongoose';
+import { Payload } from '@prisma/client/runtime';
 
 const generateToken = (User: any): string => {
   const privateKey = process.env.JWT_PRIVATE_KEY!;
-  // const privateKey = process.env.JWT_PRIVATE_KEY || 'default_private_key';
   const expiresIn = '1d';
   console.log('privatekey: ' + privateKey);
   const token = jwt.sign(
@@ -45,10 +49,20 @@ export default {
         instructions,
         mealThumbnail,
         mealVideo,
+        token,
       },
     }: { input: RecipeType },
-    context: Context,
   ) => {
+    console.log('token' + token.token);
+    // Decode the JWT token to get the user's role
+    const decodedToken = decodeToken(token.token) as TokenPayload;
+
+    const { role } = decodedToken;
+
+    if (!decodedToken || role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+
     const updateCategory = await Category.findById(category);
     if (!updateCategory) {
       throw new Error('Category not found');
