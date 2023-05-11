@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 14.x
       - name: Install dependencies
-        run: npm ci
+        run: npm i
       - name: Deploy to Digital Ocean
         uses: actions/checkout@v2
         with:
