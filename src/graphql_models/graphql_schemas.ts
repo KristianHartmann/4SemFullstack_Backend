@@ -24,7 +24,7 @@ type Category {
   type Review {
     id: ID!
     rating: Int!
-    comment: String!
+    comment: String
     createdBy: User!
     recipe: Recipe!
     createdAt: String!
