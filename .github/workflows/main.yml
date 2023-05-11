@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to Digital Ocean
         uses: actions/checkout@v2
         with:
-          host: your-droplet-ip-address
+          host: kiah.dk
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
