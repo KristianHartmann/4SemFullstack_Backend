@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Deploy to Digital Ocean
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v2
         with:
           host: your-droplet-ip-address
           username: root
