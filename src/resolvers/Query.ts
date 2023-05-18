@@ -32,9 +32,23 @@ export default {
       }),
 
   users: async () =>
-    await User.find({}).populate('recipes').populate('reviews'),
+    await User.find({})
+      .populate({
+        path: 'recipes',
+        populate: {
+          path: 'category',
+          select: 'category',
+        },
+      })
+      .populate('reviews'),
   user: async (_parent: never, { id }: Args) =>
-    await User.findById(id).populate('recipes').populate('reviews'),
+    await User.findById(id).populate({
+      path: 'recipes',
+      populate: {
+        path: 'category',
+        select: 'category',
+      },
+    }).populate('reviews'),
   reviews: async () =>
     await Review.find({}).populate('createdBy').populate('recipe'),
   review: async (_parent: never, { id }: Args) =>
