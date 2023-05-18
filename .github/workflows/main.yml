@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Deploy to Digital Ocean
-        uses: appleboy/ssh-action@master
+        uses: actions/checkout@v2
         with:
           host: kiah.dk
           username: root
