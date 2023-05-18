@@ -12,15 +12,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 19
+          node-version: 14
       - name: Install dependencies
         run: npm install
       - name: Deploy to Digital Ocean
-        uses: actions/checkout@v2
+        uses: appleboy/scp-action@master
         with:
           host: kiah.dk
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ./4SemFullstack_Backend/
+          target: 4SemFullstack_Backend/
+          args: -r
           script: |
             cd 4SemFullstack_Backend/
             git pull origin main
