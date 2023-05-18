@@ -27,9 +27,12 @@ jobs:
             npm install
             npm run build
             pm2 restart all
-      - name: Sync files to Digital Ocean
-        uses: appleboy/rsync-action@master
+      - name: Copy files to Digital Ocean
+        uses: appleboy/scp-action@master
         with:
-          src: ./4SemFullstack_Backend/
-          dest: root@kiah.dk:/4SemFullstack_Backend/
-          args: --archive --delete
+          host: kiah.dk
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 4SemFullstack_Backend/
+          target: /root/4SemFullstack_Backend
+
