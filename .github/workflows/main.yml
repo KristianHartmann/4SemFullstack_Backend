@@ -24,7 +24,7 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/your/project
+            cd 4SemFullstack_Backend/
             git pull origin main
             npm install
             npm run build
