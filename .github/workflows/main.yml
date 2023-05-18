@@ -11,23 +11,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.0
         with:
-          node-version: 14.x
-      - name: Install dependencies
-        run: npm i
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy to Digital Ocean
-        uses: actions/checkout@v2
-        with:
-          host: kiah.dk
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd 4SemFullstack_Backend/
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart all
-        env:
-          CI: true
+        run: |
+          ssh root@kiah.dk "cd 4SemFullstack_Backend && git pull origin main && npm install && npm run build && pm2 restart all"
