@@ -61,8 +61,28 @@ type Category {
     createUser(input: UserInput!): User!
     createCategory(input: CategoryInput!): Category!
     login(input: LoginInput!): AuthPayload!
+    updateRecipe(input: UpdateRecipeInput!): Recipe!
+    deleteRecipe(input: DeleteRecipeInput!): Boolean
   }
 
+  input DeleteRecipeInput {
+    id: ID!
+    token: TokenInput!
+  }
+  
+  input UpdateRecipeInput {
+    id: ID!
+    mealHeadline: String
+    category: ID
+    instructions: String
+    mealThumbnail: String
+    mealVideo: String
+    createdBy: ID
+    ingredients: [IngredientInput]
+    token: TokenInput!
+  }
+
+  
   input IngredientInput {
     name: String!
     measure: String!

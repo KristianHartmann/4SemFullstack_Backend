@@ -6,7 +6,7 @@ type TokenType = {
   token: string;
 };
 type TokenPayload = {
-  id: string;
+  _id: string;
   email: string;
   role: string;
 };
