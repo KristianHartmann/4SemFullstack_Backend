@@ -7,8 +7,7 @@ import AppError from './utility/appError';
 import globalErrorHandler from './middleware/globalErrorHandler';
 import recipeRouter from './routes/recipeRoute';
 import reviewRouter from './routes/reviewRoute';
-
-
+import userRouter from './routes/userRoute';
 
 const app = express();
 if (process.env.NODE_ENV === 'development') {
@@ -22,6 +21,7 @@ app.use(express.static(`${__dirname}/public`)); // Serve static files
 // Routes
 app.use('/api/v1/recipes', recipeRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/users', userRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
